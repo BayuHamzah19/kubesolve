@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bayuhamzah19.github.io/kubesolve/sitemap.xml
