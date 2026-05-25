@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SEO Meta Tags -->
+  <title>KubeSolve - Pemecah Rubik 3x3 Instan & Rumus Cepat</title>
+  <meta name="description" content="Pecahkan Rubik's Cube 3x3 Anda secara instan menggunakan algoritma Kociemba. Cukup masukkan warna stiker secara manual dan dapatkan langkah penyelesaian cepat dan mudah dipahami.">
+  <meta name="keywords" content="rubik solver, pemecah rubik, rumus rubik 3x3, cara menyelesaikan rubik, cube solver 3x3, kociemba algorithm, magic cube solver, hazett corporate">
+  <meta name="author" content="Hazett Corporate">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="KubeSolve - Pemecah Rubik 3x3 Instan">
+  <meta property="og:description" content="Selesaikan rubik Anda kurang dari 22 langkah dengan visualisasi putaran interaktif.">
+  
+  <!-- Google Fonts Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Material Icons for UI -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient background glow blobs -->
+  <div class="glow-blob blob-purple"></div>
+  <div class="glow-blob blob-teal"></div>
+  <div class="glow-blob blob-center"></div>
+
+  <!-- Loading Overlay -->
+  <div id="loader-overlay" class="loader-overlay">
+    <div class="loader-card">
+      <div class="spinner"></div>
+      <h2 id="loader-title">Menginisialisasi Solver</h2>
+      <p id="loader-subtitle">Sedang mempersiapkan tabel komputasi Kociemba. Harap tunggu...</p>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-logo">
+        <span class="material-icons-round logo-icon">auto_fix_high</span>
+        <h1>KubeSolve</h1>
+      </div>
+      <p class="header-subtitle">Pecahkan Rubik 3x3 secara instan menggunakan algoritma Kociemba</p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="main-content">
+      <!-- Left Section: Cube input and controls -->
+      <section class="control-section">
+        <div class="glass-card cube-input-card">
+          <div class="card-header">
+            <span class="material-icons-round section-icon">grid_view</span>
+            <h2>Masukkan Warna Kubus</h2>
+            <div class="view-toggle">
+              <button id="btn-net-view" class="toggle-btn active">
+                <span class="material-icons-round">view_module</span> Jaring-jaring
+              </button>
+              <button id="btn-single-view" class="toggle-btn">
+                <span class="material-icons-round">pages</span> Per Sisi
+              </button>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-container">
+            <div class="progress-text">
+              <span>Progress Pengisian</span>
+              <span id="progress-count">0 / 54 Kotak</span>
+            </div>
+            <div class="progress-track">
+              <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Unfolded Net View Container -->
+          <div id="net-view-container" class="view-container">
+            <div class="cube-net-grid">
+              <!-- Up (Yellow) -->
+              <div class="face-wrapper face-u">
+                <span class="face-label">U (Atas - Kuning)</span>
+                <div class="face-grid" data-face="U"></div>
+              </div>
+              <!-- Left (Red) -->
+              <div class="face-wrapper face-l">
+                <span class="face-label">L (Kiri - Merah)</span>
+                <div class="face-grid" data-face="L"></div>
+              </div>
+              <!-- Front (Green) -->
+              <div class="face-wrapper face-f">
+                <span class="face-label">F (Depan - Hijau)</span>
+                <div class="face-grid" data-face="F"></div>
+              </div>
+              <!-- Right (Orange) -->
+              <div class="face-wrapper face-r">
+                <span class="face-label">R (Kanan - Oranye)</span>
+                <div class="face-grid" data-face="R"></div>
+              </div>
+              <!-- Back (Blue) -->
+              <div class="face-wrapper face-b">
+                <span class="face-label">B (Belakang - Biru)</span>
+                <div class="face-grid" data-face="B"></div>
+              </div>
+              <!-- Down (White) -->
+              <div class="face-wrapper face-d">
+                <span class="face-label">D (Bawah - Putih)</span>
+                <div class="face-grid" data-face="D"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Single Face View Container -->
+          <div id="single-view-container" class="view-container hidden">
+            <!-- Face selection horizontal bar -->
+            <div class="face-selector-bar">
+              <button class="face-sel-btn active" data-face="U">
+                <span class="color-dot u-dot"></span> U
+              </button>
+              <button class="face-sel-btn" data-face="L">
+                <span class="color-dot l-dot"></span> L
+              </button>
+              <button class="face-sel-btn" data-face="F">
+                <span class="color-dot f-dot"></span> F
+              </button>
+              <button class="face-sel-btn" data-face="R">
+                <span class="color-dot r-dot"></span> R
+              </button>
+              <button class="face-sel-btn" data-face="B">
+                <span class="color-dot b-dot"></span> B
+              </button>
+              <button class="face-sel-btn" data-face="D">
+                <span class="color-dot d-dot"></span> D
+              </button>
+            </div>
+
+            <!-- Main Single Face Box -->
+            <div class="single-face-box">
+              <button id="btn-prev-face" class="face-nav-btn">
+                <span class="material-icons-round">chevron_left</span>
+              </button>
+              
+              <div class="single-face-display">
+                <h3 id="current-face-title">Sisi Atas (Kuning)</h3>
+                <div class="face-grid large-face" id="single-face-grid"></div>
+              </div>
+
+              <button id="btn-next-face" class="face-nav-btn">
+                <span class="material-icons-round">chevron_right</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Color Picker Bar -->
+          <div class="color-picker-card">
+            <span class="picker-title">PILIH WARNA</span>
+            <div class="color-options">
+              <button class="color-opt-btn col-yellow active" data-color="yellow" title="Kuning (U)">
+                <span class="material-icons-round check-icon">check</span>
+              </button>
+              <button class="color-opt-btn col-orange" data-color="orange" title="Oranye (R)">
+                <span class="material-icons-round check-icon">check</span>
+              </button>
+              <button class="color-opt-btn col-green" data-color="green" title="Hijau (F)">
+                <span class="material-icons-round check-icon">check</span>
+              </button>
+              <button class="color-opt-btn col-white" data-color="white" title="Putih (D)">
+                <span class="material-icons-round check-icon">check</span>
+              </button>
+              <button class="color-opt-btn col-red" data-color="red" title="Merah (L)">
+                <span class="material-icons-round check-icon">check</span>
+              </button>
+              <button class="color-opt-btn col-blue" data-color="blue" title="Biru (B)">
+                <span class="material-icons-round check-icon">check</span>
+              </button>
+            </div>
+            <div class="picker-footer">
+              <span id="selected-color-label" class="selected-color-label text-yellow">Kuning</span>
+            </div>
+          </div>
+
+          <!-- Solver Controls -->
+          <div class="control-actions">
+            <button id="btn-reset" class="action-btn btn-secondary">
+              <span class="material-icons-round">refresh</span> Reset
+            </button>
+            <button id="btn-scramble" class="action-btn btn-secondary">
+              <span class="material-icons-round">shuffle</span> Scramble
+            </button>
+            <button id="btn-solve" class="action-btn btn-primary">
+              <span class="material-icons-round">vpn_key</span> SOLVE
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Section: Solve steps and visualizations -->
+      <section class="solution-section">
+        <!-- Error & Validation Panel -->
+        <div id="validation-panel" class="glass-card error-card hidden">
+          <div class="card-header border-error">
+            <span class="material-icons-round error-icon text-error">warning</span>
+            <h2 class="text-error">Kubus Tidak Valid</h2>
+          </div>
+          <div class="card-body">
+            <p>Silakan periksa kembali kecocokan warna pada kubus fisik Anda. Ditemukan kesalahan:</p>
+            <ul id="error-list" class="error-list">
+              <!-- Dynamic error messages -->
+            </ul>
+          </div>
+        </div>
+
+        <!-- Empty Solution State -->
+        <div id="empty-solution-panel" class="glass-card empty-solution-card">
+          <span class="material-icons-round empty-icon">lightbulb</span>
+          <h3>Belum Ada Solusi</h3>
+          <p>Isi seluruh kotak kubus di sebelah kiri dan klik tombol "SELESAIKAN RUBIK" untuk melihat petunjuk penyelesaian.</p>
+        </div>
+
+        <!-- Solution Viewer -->
+        <div id="solution-panel" class="glass-card solution-card hidden">
+          <div class="card-header border-success">
+            <span class="material-icons-round success-icon text-success">check_circle</span>
+            <h2>Solusi Ditemukan!</h2>
+            <div class="solve-time-badge" id="solve-time">0 ms</div>
+          </div>
+
+          <div class="solution-overview">
+            <span class="overview-label">Algoritma Langkah:</span>
+            <div class="algorithm-notation" id="algorithm-notation">R U R' U' ...</div>
+          </div>
+
+          <!-- Holding Guide Banner -->
+          <div class="holding-guide-banner">
+            <span class="material-icons-round info-icon">info</span>
+            <div class="guide-content">
+              <strong>PANDUAN PEGANG KUBUS</strong>
+              <p>Pegang sisi <strong>Hijau</strong> menghadap depan Anda, dan sisi <strong>Kuning</strong> menghadap atas.</p>
+            </div>
+            <button id="btn-show-guide" class="guide-link-btn">Panduan</button>
+          </div>
+
+          <!-- Step Navigation Visualizer -->
+          <div class="step-player">
+            <div class="player-header">
+              <span class="step-counter" id="step-counter">LANGKAH 1 DARI 10</span>
+              <span class="step-notation-badge" id="step-notation-badge">R2</span>
+            </div>
+
+            <!-- 2D Step Rotation Visualizer -->
+            <div class="step-visualizer-container">
+              <div class="visualizer-face-layout">
+                <div class="mini-face-grid" id="visualizer-face">
+                  <!-- Generated cells -->
+                </div>
+                <!-- Animated SVG Arrow for Rotation -->
+                <div class="rotation-arrow-overlay" id="rotation-arrow">
+                  <svg viewBox="0 0 100 100" class="arrow-svg">
+                    <path id="arrow-path" d="" fill="none" stroke="#00D4AA" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-head)"/>
+                    <defs>
+                      <marker id="arrow-head" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#00D4AA"/>
+                      </marker>
+                    </defs>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step Instructions -->
+            <div class="step-instruction">
+              <h3 id="step-face-title">Sisi Kanan (Oranye)</h3>
+              <p id="step-desc-text">Putar sisi Kanan 180 derajat (setengah putaran).</p>
+            </div>
+
+            <!-- Player Controls -->
+            <div class="player-controls">
+              <button id="btn-step-prev" class="player-btn">
+                <span class="material-icons-round">skip_previous</span> Sebelum
+              </button>
+              <button id="btn-step-play" class="player-btn btn-play">
+                <span class="material-icons-round" id="play-icon">play_arrow</span> Putar
+              </button>
+              <button id="btn-step-next" class="player-btn">
+                Lanjut <span class="material-icons-round">skip_next</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step Scroll List -->
+          <div class="solution-steps-list-container">
+            <h3>Daftar Langkah Solusi:</h3>
+            <div class="steps-scroll-list" id="steps-scroll-list">
+              <!-- Dynamically generated list items -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Google AdSense Banner Placement -->
+    <div class="web-ad-container">
+      <span class="ad-label">SPONSORED ADVERTISEMENT</span>
+      <div class="web-ad-placeholder">
+        <!-- Placeholder for Local Dev, AdSense code for production -->
+        <div class="adsense-mock">
+          <span class="material-icons-round">campaign</span>
+          <p>Google AdSense Banner (Akan tampil di sini setelah menghubungkan Publisher ID Anda)</p>
+        </div>
+        
+        <!--
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:728px;height:90px"
+             data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+             data-ad-slot="xxxxxxxxxx"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        -->
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>&copy; 2026 KubeSolve. Created by <strong>Hazett Corporate</strong></p>
+    </footer>
+  </div>
+
+  <!-- Holding Guide Modal Dialog -->
+  <div id="guide-modal" class="modal-overlay hidden">
+    <div class="glass-card modal-card">
+      <div class="modal-header">
+        <span class="material-icons-round modal-icon">help_outline</span>
+        <h2>Cara Pegang Kubus</h2>
+      </div>
+      <div class="modal-body">
+        <p>Agar hasil putaran sesuai, pegang kubus dengan posisi awal berikut sebelum memulai langkah pertama:</p>
+        <div class="guide-rows-container">
+          <div class="guide-row"><span class="guide-color-box green"></span> <strong>F (Front - Depan):</strong> &nbsp;<span>Hijau</span></div>
+          <div class="guide-row"><span class="guide-color-box yellow"></span> <strong>U (Up - Atas):</strong> &nbsp;<span>Kuning</span></div>
+          <div class="guide-row"><span class="guide-color-box white"></span> <strong>D (Down - Bawah):</strong> &nbsp;<span>Putih</span></div>
+          <div class="guide-row"><span class="guide-color-box orange"></span> <strong>R (Right - Kanan):</strong> &nbsp;<span>Oranye</span></div>
+          <div class="guide-row"><span class="guide-color-box red"></span> <strong>L (Left - Kiri):</strong> &nbsp;<span>Merah</span></div>
+          <div class="guide-row"><span class="guide-color-box blue"></span> <strong>B (Back - Belakang):</strong> &nbsp;<span>Biru</span></div>
+        </div>
+        <div class="guide-alert">
+          <span class="material-icons-round alert-icon">warning_amber</span>
+          <p><strong>PENTING:</strong> Jangan putar/ubah arah pegangan kubus Anda saat memutar sisi. Sisi HIJAU harus selalu menghadap depan Anda.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-close-guide" class="action-btn btn-primary">Mengerti</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Solver and App scripts -->
+  <script src="cube_solver.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
