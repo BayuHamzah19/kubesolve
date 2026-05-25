@@ -21,10 +21,10 @@ class AdManager {
     if (kDebugMode) {
       return Platform.isAndroid ? _androidBannerId : _iosBannerId;
     }
-    // TODO: Put your production AdMob Banner Unit IDs here
+    // Production AdMob Banner Unit ID
     return Platform.isAndroid 
-        ? _androidBannerId // Replace with real Android Banner ID
-        : _iosBannerId;    // Replace with real iOS Banner ID
+        ? 'ca-app-pub-3714262893174384/8829355041' 
+        : _iosBannerId;
   }
 
   /// Get the appropriate Rewarded Ad Unit ID based on platform.
