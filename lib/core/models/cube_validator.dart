@@ -148,8 +148,8 @@ class CubeValidator {
       // Cek apakah warnanya berlawanan
       if (opposites[color1] == color2) {
         errors.add(
-          'Edge mustahil: ${color1.label}-${color2.label} '
-          '(pada ${face1.name}[${idx1 + 1}] dan ${face2.name}[${idx2 + 1}]).',
+          'Edge mustahil: warna ${color1.label} bersebelahan dengan warna lawannya ${color2.label} '
+          '(pada sisi ${face1.label} kotak ke-${idx1 + 1} dan sisi ${face2.label} kotak ke-${idx2 + 1}).',
         );
       }
 
@@ -157,7 +157,7 @@ class CubeValidator {
       if (color1 == color2) {
         errors.add(
           'Edge mustahil: dua warna sama ${color1.label} '
-          '(pada ${face1.name}[${idx1 + 1}] dan ${face2.name}[${idx2 + 1}]).',
+          '(pada sisi ${face1.label} kotak ke-${idx1 + 1} dan sisi ${face2.label} kotak ke-${idx2 + 1}).',
         );
       }
     }
@@ -194,10 +194,17 @@ class CubeValidator {
     };
 
     for (final corner in corners) {
+      final face1 = corner[0] as CubeFace;
+      final idx1 = corner[1] as int;
+      final face2 = corner[2] as CubeFace;
+      final idx2 = corner[3] as int;
+      final face3 = corner[4] as CubeFace;
+      final idx3 = corner[5] as int;
+
       final colors = <CubeColor>[
-        cube.faces[corner[0] as CubeFace]!.cells[corner[1] as int],
-        cube.faces[corner[2] as CubeFace]!.cells[corner[3] as int],
-        cube.faces[corner[4] as CubeFace]!.cells[corner[5] as int],
+        cube.faces[face1]!.cells[idx1],
+        cube.faces[face2]!.cells[idx2],
+        cube.faces[face3]!.cells[idx3],
       ];
 
       // Cek apakah ada warna yang sama pada satu corner
@@ -205,21 +212,25 @@ class CubeValidator {
           colors[1] == colors[2] ||
           colors[0] == colors[2]) {
         errors.add(
-          'Corner mustahil: ada warna duplikat '
-          '(${colors.map((c) => c.label).join(", ")}).',
+          'Corner mustahil: ada warna duplikat (${colors.map((c) => c.label).join(", ")}) '
+          '(pada sisi ${face1.label} kotak ke-${idx1 + 1}, sisi ${face2.label} kotak ke-${idx2 + 1}, dan sisi ${face3.label} kotak ke-${idx3 + 1}).',
         );
       }
 
       // Cek apakah ada pasangan warna berlawanan pada satu corner
+      bool hasOpposite = false;
       for (int i = 0; i < 3; i++) {
         for (int j = i + 1; j < 3; j++) {
           if (opposites[colors[i]] == colors[j]) {
-            errors.add(
-              'Corner mustahil: ${colors[i].label}-${colors[j].label} '
-              'tidak bisa bersebelahan.',
-            );
+            hasOpposite = true;
           }
         }
+      }
+      if (hasOpposite) {
+        errors.add(
+          'Corner mustahil: ada warna berseberangan yang tidak boleh berdekatan (${colors.map((c) => c.label).join(", ")}) '
+          '(pada sisi ${face1.label} kotak ke-${idx1 + 1}, sisi ${face2.label} kotak ke-${idx2 + 1}, dan sisi ${face3.label} kotak ke-${idx3 + 1}).',
+        );
       }
     }
 

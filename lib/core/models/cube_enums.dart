@@ -71,6 +71,27 @@ extension CubeColorExtension on CubeColor {
   }
 }
 
+/// Extension untuk mendapatkan label bahasa Indonesia dari CubeFace.
+extension CubeFaceExtension on CubeFace {
+  String get label {
+    switch (this) {
+      case CubeFace.U:
+        return 'Atas (U)';
+      case CubeFace.D:
+        return 'Bawah (D)';
+      case CubeFace.R:
+        return 'Kanan (R)';
+      case CubeFace.L:
+        return 'Kiri (L)';
+      case CubeFace.F:
+        return 'Depan (F)';
+      case CubeFace.B:
+        return 'Belakang (B)';
+    }
+  }
+}
+
+
 /// Mapping dari CubeFace ke center color yang tetap.
 CubeColor centerColorForFace(CubeFace face) {
   switch (face) {

@@ -414,12 +414,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Opposites rule
       if (opposites[c1] === c2) {
-        errors.push(`Edge mustahil: warna ${colorLabels[c1]} bersebelahan dengan warna lawannya ${colorLabels[c2]} (pada sisi ${edge.f1}[${edge.idx1+1}] dan sisi ${edge.f2}[${edge.idx2+1}]).`);
+        errors.push(`Edge mustahil: warna ${colorLabels[c1]} bersebelahan dengan warna lawannya ${colorLabels[c2]} (pada sisi ${faceNames[edge.f1]} kotak ke-${edge.idx1+1} dan sisi ${faceNames[edge.f2]} kotak ke-${edge.idx2+1}).`);
       }
       
       // Duplicates color on the same edge piece
       if (c1 === c2) {
-        errors.push(`Edge mustahil: dua warna sama ${colorLabels[c1]} berada pada edge piece yang sama.`);
+        errors.push(`Edge mustahil: dua warna sama ${colorLabels[c1]} berada pada edge piece yang sama (pada sisi ${faceNames[edge.f1]} kotak ke-${edge.idx1+1} dan sisi ${faceNames[edge.f2]} kotak ke-${edge.idx2+1}).`);
       }
     });
 
@@ -433,17 +433,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Duplicate color on corner
       if (c1 === c2 || c2 === c3 || c1 === c3) {
-        errors.push(`Corner mustahil: ada warna duplikat (${colorLabels[c1]}, ${colorLabels[c2]}, ${colorLabels[c3]}).`);
+        errors.push(`Corner mustahil: ada warna duplikat (${colorLabels[c1]}, ${colorLabels[c2]}, ${colorLabels[c3]}) (pada sisi ${faceNames[corner.f1]} kotak ke-${corner.idx1+1}, sisi ${faceNames[corner.f2]} kotak ke-${corner.idx2+1}, dan sisi ${faceNames[corner.f3]} kotak ke-${corner.idx3+1}).`);
       }
 
       // Opposite colors on corner
       const list = [c1, c2, c3];
+      let hasOpposite = false;
       for (let i = 0; i < 3; i++) {
         for (let j = i + 1; j < 3; j++) {
           if (opposites[list[i]] === list[j]) {
-            errors.push(`Corner mustahil: warna ${colorLabels[list[i]]} dan ${colorLabels[list[j]]} tidak boleh bersebelahan.`);
+            hasOpposite = true;
           }
         }
+      }
+      if (hasOpposite) {
+        errors.push(`Corner mustahil: ada warna berseberangan yang tidak boleh berdekatan (${colorLabels[c1]}, ${colorLabels[c2]}, ${colorLabels[c3]}) (pada sisi ${faceNames[corner.f1]} kotak ke-${corner.idx1+1}, sisi ${faceNames[corner.f2]} kotak ke-${corner.idx2+1}, dan sisi ${faceNames[corner.f3]} kotak ke-${corner.idx3+1}).`);
       }
     });
 
