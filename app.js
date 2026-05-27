@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { f1: 'U', idx1: 2, f2: 'B', idx2: 0, f3: 'R', idx3: 2 },
     { f1: 'U', idx1: 6, f2: 'F', idx2: 0, f3: 'L', idx3: 2 },
     { f1: 'U', idx1: 8, f2: 'R', idx2: 0, f3: 'F', idx3: 2 },
-    { f1: 'D', idx1: 0, f2: 'L', idx2: 6, f3: 'F', idx3: 6 },
+    { f1: 'D', idx1: 0, f2: 'L', idx2: 8, f3: 'F', idx3: 6 },
     { f1: 'D', idx1: 2, f2: 'F', idx2: 8, f3: 'R', idx3: 6 },
     { f1: 'D', idx1: 6, f2: 'B', idx2: 8, f3: 'L', idx3: 6 },
     { f1: 'D', idx1: 8, f2: 'R', idx2: 8, f3: 'B', idx3: 6 }
